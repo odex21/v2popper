@@ -136,6 +136,8 @@ const popper = {
       }
 
       dom.style.zIndex = PopupManager.nextZIndex()
+      if (this.createPopper) this.createPopper()
+
       this.opened = true
 
       this.onOpen && this.onOpen()
@@ -148,7 +150,6 @@ const popper = {
     },
 
     close() {
-      console.log("close drawer !!!!!!!!")
       if (this.visible)
         this.visible = false
       if (!this.opened) return

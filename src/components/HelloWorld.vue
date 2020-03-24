@@ -11,6 +11,10 @@
       >vue-cli documentation</a>.
     </p>
     <button @click="drawer = true">showDrawer</button>
+    <h-tooltip :hideEvents="[]">
+      tooltip
+      <div slot="content">test</div>
+    </h-tooltip>
     <div class="test-wrapper">
       <h-drawer :showDrawer.sync="drawer">
         something

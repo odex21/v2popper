@@ -4,15 +4,21 @@
       <slot />
     </div>
     <transition name="fade">
-      <div v-show="visible" role="tooltip" class="popper el-tooltip" ref="popper">
+      <div
+        v-show="visible"
+        role="tooltip"
+        :class="tooltipClass"
+        class="popper tooltip"
+        ref="popper"
+      >
         <slot name="content" />
-        <div class="popper-arrow" data-popper-arrow></div>
+        <div v-if="showArrow" class="popper-arrow" data-popper-arrow></div>
       </div>
     </transition>
   </div>
 </template>
 <script>
-import { create } from '../Popover/createTooltip'
+import { create } from '../Popover/createPopper'
 import './tooltip.styl'
 import { popper } from '../utils/popup'
 import { on } from '../utils/dom'
@@ -43,6 +49,23 @@ export default {
     hideEvents: {
       type: Array,
       default: () => (['mouseleave', 'blur'])
+    },
+    tabindex: {
+      type: Number,
+      default: 0
+    },
+    modal: {
+      tyep: Boolean,
+      default: false
+    },
+    effect: {
+      type: String,
+      default: 'dark',
+      validator: e => ['dark'].indexOf(e) > -1
+    },
+    showArrow: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -51,20 +74,22 @@ export default {
       modalAppendToBody: this.appendToBody
     }
   },
+  computed: {
+    tooltipClass() {
+      const res = []
+      if (this.effect) res.push(this.effect)
+      return res
+    }
+  },
   mounted() {
     const { placement, modifiers, showEvents, hideEvents, appendToBody } = this
     const { target, popper } = this.$refs
-    const createPopper = create(this.$refs.target, popper, {
+    this.createPopper = create(this.$refs.target, popper, {
       placement,
       modifiers,
-      showEvents,
-      hideEvents
     })
     showEvents.forEach(e => on(target, e, () => {
       this.visible = true
-      setTimeout(() => {
-        this.popperInstance = createPopper()
-      }, 100)
     }))
     hideEvents.forEach(e => on(target, e, () => {
       this.close()

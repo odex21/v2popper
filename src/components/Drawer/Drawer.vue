@@ -19,7 +19,7 @@
           role="dialog"
           tabindex="-1"
         >
-          <header v-if="withHeader" id="el-drawer__title" class="el-drawer__header">
+          <header v-if="title" id="el-drawer__title" class="el-drawer__header">
             <slot name="title">
               <span role="heading" tabindex="0" :title="title">{{ title }}</span>
             </slot>
@@ -45,7 +45,6 @@
 <script>
 import { popper } from '../utils/popup'
 import './drawer.styl'
-import { PopupManager } from '../utils/popup/popup-manager'
 
 
 export default {
@@ -54,7 +53,7 @@ export default {
   props: {
     appendToBody: {
       type: Boolean,
-      default: false
+      default: true
     },
     beforeClose: {
       default: null,
@@ -106,10 +105,6 @@ export default {
       type: Boolean,
       default: true
     },
-    withHeader: {
-      type: Boolean,
-      default: true
-    }
   },
   data() {
     return {
@@ -154,6 +149,7 @@ export default {
       this.rendered = true
       this.open()
     }
+
   },
   destroyed() {
     // if appendToBody is true, remove DOM node after destroy

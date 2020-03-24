@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { create } from './createTooltip'
+import { create } from './createPopper'
 import './popover.styl'
 import { popper } from '../utils/popup'
 import { on } from '../utils/dom'
@@ -60,7 +60,7 @@ export default {
   mounted() {
     const { placement, modifiers, showEvents, hideEvents, appendToBody } = this
     const { target, popper } = this.$refs
-    const createPopper = create(this.$refs.target, popper, {
+    this.createPopper = create(this.$refs.target, popper, {
       placement,
       modifiers,
       showEvents,
@@ -68,7 +68,7 @@ export default {
     })
     showEvents.forEach(e => on(target, e, () => {
       this.visible = true
-      this.popperInstance = createPopper()
+      // this.popperInstance = createPopper()
     }))
     hideEvents.forEach(e => on(target, e, () => {
       this.visible = false
