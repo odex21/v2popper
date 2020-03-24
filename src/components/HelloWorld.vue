@@ -23,6 +23,16 @@
           <div slot="content">test</div>
         </h-tooltip>
       </h-drawer>
+      <button @click="drawer2 = true">showDrawer</button>
+
+      <h-drawer :showDrawer.sync="drawer2">
+        something
+        <h-tooltip>
+          tooltip
+          <div slot="content">test</div>
+        </h-tooltip>
+      </h-drawer>
+
       <h-popover>
         Test1
         <div slot="content">
@@ -63,6 +73,7 @@ export default {
   data() {
     return {
       drawer: false,
+      drawer2: false,
     }
   }
 }
